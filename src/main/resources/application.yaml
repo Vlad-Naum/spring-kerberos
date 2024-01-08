@@ -1,0 +1,8 @@
+server:
+  port: 8080
+app:
+  service-principal:
+  keytab-location:
+logging:
+  level:
+    root: debug
