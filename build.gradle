@@ -22,6 +22,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
 	implementation group: 'org.springframework.security', name: 'spring-security-config', version: '6.2.1'
 
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.1.5'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 //	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.security.kerberos:spring-security-kerberos-core:2.0.0'

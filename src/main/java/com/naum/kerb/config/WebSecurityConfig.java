@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.kerberos.authentication.KerberosAuthenticationProvider;
 import org.springframework.security.kerberos.authentication.KerberosServiceAuthenticationProvider;
 import org.springframework.security.kerberos.authentication.sun.SunJaasKerberosClient;
@@ -40,15 +41,13 @@ public class WebSecurityConfig {
                         .requestMatchers("/", "/home").permitAll()
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling()
-                .authenticationEntryPoint(spnegoEntryPoint())
-                .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .and()
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {
+                    httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(spnegoEntryPoint());
+                })
+                .formLogin(httpSecurityFormLoginConfigurer -> {
+                    httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
+                })
+                .logout(LogoutConfigurer::permitAll)
                 .authenticationProvider(kerberosAuthenticationProvider())
                 .authenticationProvider(kerberosServiceAuthenticationProvider())
                 .addFilterBefore(spnegoAuthenticationProcessingFilter(providerManager),
